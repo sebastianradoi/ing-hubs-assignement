@@ -2,6 +2,7 @@ package com.hubs.ing.assignment.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
@@ -17,9 +18,10 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests((requests) -> requests
-						.requestMatchers("/swagger-ui", "/swagger-ui/**", "/api-docs").permitAll()
-						.requestMatchers("/users", "/users/**").hasRole("ADMIN")
+		http.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/swagger-ui", "/swagger-ui/**", "/api-docs/**").hasAnyRole("USER","ADMIN")
+						.requestMatchers(HttpMethod.GET, "/products", "/products/**").hasAnyRole("USER","ADMIN")
+						.requestMatchers("/users", "/users/**", "/products", "/products/**").hasRole("ADMIN")
 						.anyRequest().authenticated()
 				)
 				.formLogin(AbstractAuthenticationFilterConfigurer::permitAll)

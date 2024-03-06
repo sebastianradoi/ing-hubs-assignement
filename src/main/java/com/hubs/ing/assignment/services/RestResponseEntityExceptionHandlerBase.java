@@ -40,4 +40,13 @@ public class RestResponseEntityExceptionHandlerBase extends ResponseEntityExcept
 						)
 				);
 	}
+
+	@ExceptionHandler(value = { Exception.class })
+	protected ResponseEntity<Response> handleException(Exception ex) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(new Response(null, Boolean.FALSE,
+								List.of(ex.getMessage())
+						)
+				);
+	}
 }

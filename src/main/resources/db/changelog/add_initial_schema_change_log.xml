@@ -9,11 +9,22 @@
                author="sebastianradoi (generated)">
         <preConditions onFail="MARK_RAN">
             <not>
-                <sequenceExists sequenceName="store_user_seq"/>
+                <sequenceExists sequenceName="store_user_id_seq"/>
             </not>
         </preConditions>
         <createSequence incrementBy="1"
                         sequenceName="store_user_id_seq"
+                        startValue="1000"/>
+    </changeSet>
+    <changeSet id="17097413572sadasd64-1"
+               author="sebastianradoi (generated)">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="product_id_seq"/>
+            </not>
+        </preConditions>
+        <createSequence incrementBy="1"
+                        sequenceName="product_id_seq"
                         startValue="1000"/>
     </changeSet>
     <changeSet id="1709741357264-2"
@@ -35,6 +46,27 @@
             <column name="password"
                     type="VARCHAR(255)"/>
             <column name="roles"
+                    type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1709741312357264-2" author="sebastianradoi (generated)">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="product"/>
+            </not>
+        </preConditions>
+        <createTable tableName="product">
+            <column name="id"
+                    type="BIGINT">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_product"/>
+            </column>
+            <column name="name"
+                    type="VARCHAR(255)"/>
+            <column name="price"
+                    type="DOUBLE"/>
+            <column name="description"
                     type="VARCHAR(255)"/>
         </createTable>
     </changeSet>

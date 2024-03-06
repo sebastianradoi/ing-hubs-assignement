@@ -1,13 +1,10 @@
 package com.hubs.ing.assignment.validation;
 
-import java.util.Arrays;
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.hubs.ing.assignment.database.StoreUserRole;
-import com.hubs.ing.assignment.models.request.UserRequestDto;
+import com.hubs.ing.assignment.database.repository.ProductRepository;
+import com.hubs.ing.assignment.models.request.ProductRequestDto;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintValidator;
@@ -19,36 +16,31 @@ import lombok.RequiredArgsConstructor;
 @Service
 @SupportedValidationTarget(ValidationTarget.PARAMETERS)
 @RequiredArgsConstructor
-public class IsUserRequestValidValidator implements ConstraintValidator<IsUserRequestValid, Object[]> {
+public class IsProductRequestValidValidator implements ConstraintValidator<IsProductRequestValid, Object[]> {
+	private final ProductRepository productRepository;
 
 	@Override
-	public void initialize(IsUserRequestValid constraintAnnotation) {
+	public void initialize(IsProductRequestValid constraintAnnotation) {
 		ConstraintValidator.super.initialize(constraintAnnotation);
 	}
 
 	@Override
 	@Transactional
 	public boolean isValid(Object[] value, ConstraintValidatorContext context) {
-		var request = (UserRequestDto) value[0];
-		boolean res = Optional.ofNullable(request.roles())
-				.stream()
-				.flatMap(roles -> Arrays.stream(roles.split(",")))
-				.peek(role -> {
-					try {
-						StoreUserRole.valueOf(role);
-					} catch (IllegalArgumentException | NullPointerException e) {
-						buildConstraintValidation(context, "Invalid roles");
-					}
-				})
-				.map(role -> true)
-				.findAny()
-				.orElse(false);
-		if (!StringUtils.hasText(request.username())) {
-			buildConstraintValidation(context, "Username is required");
+		var request = (ProductRequestDto) value[0];
+		var res = true;
+		if (!StringUtils.hasText(request.name())) {
+			buildConstraintValidation(context, "Product name is required");
+			res = false;
+		} else if (productRepository.existsByName(request.name())) {
+			buildConstraintValidation(context, "Product name already exists");
 			res = false;
 		}
-		if (!StringUtils.hasText(request.password())) {
-			buildConstraintValidation(context, "Password is required");
+		if (request.price() == null) {
+			buildConstraintValidation(context, "Product price is required");
+			res = false;
+		} else if (request.price() < 0) {
+			buildConstraintValidation(context, "Product price cannot be negative");
 			res = false;
 		}
 		return res;
