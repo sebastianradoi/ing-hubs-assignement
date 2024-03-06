@@ -46,8 +46,8 @@ public class IsProductRequestValidValidator implements ConstraintValidator<IsPro
 		return res;
 	}
 
-	private void buildConstraintValidation(ConstraintValidatorContext context, String invalidRole) {
+	private void buildConstraintValidation(ConstraintValidatorContext context, String message) {
 		context.disableDefaultConstraintViolation();
-		context.buildConstraintViolationWithTemplate(invalidRole).addConstraintViolation();
+		context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
 	}
 }
