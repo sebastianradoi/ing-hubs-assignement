@@ -1,0 +1,42 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="1709741357264-1"
+               author="sebastianradoi (generated)">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="store_user_seq"/>
+            </not>
+        </preConditions>
+        <createSequence incrementBy="1"
+                        sequenceName="store_user_id_seq"
+                        startValue="1000"/>
+    </changeSet>
+    <changeSet id="1709741357264-2"
+               author="sebastianradoi (generated)">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="store_user"/>
+            </not>
+        </preConditions>
+        <createTable tableName="store_user">
+            <column name="id"
+                    type="BIGINT">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_storeuser"/>
+            </column>
+            <column name="username"
+                    type="VARCHAR(255)"/>
+            <column name="password"
+                    type="VARCHAR(255)"/>
+            <column name="roles"
+                    type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

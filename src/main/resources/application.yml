@@ -1,6 +1,12 @@
 server:
   servlet:
     contextPath: /store-management-service
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger
+    url: /store-management-service/api-docs
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
