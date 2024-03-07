@@ -14,10 +14,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 @SupportedValidationTarget(ValidationTarget.PARAMETERS)
 @RequiredArgsConstructor
-public class IsPatchProductRequestValidValidator implements ConstraintValidator<IsProductRequestValid, Object[]> {
+public class IsPatchProductRequestValidValidator implements ConstraintValidator<IsPatchProductRequestValid, Object[]> {
 
 	@Override
-	public void initialize(IsProductRequestValid constraintAnnotation) {
+	public void initialize(IsPatchProductRequestValid constraintAnnotation) {
 		ConstraintValidator.super.initialize(constraintAnnotation);
 	}
 

@@ -11,10 +11,10 @@ import jakarta.validation.Payload;
 
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy =IsProductRequestValidValidator.class)
+@Constraint(validatedBy = IsProductRequestValidValidator.class)
 @Documented
 public @interface IsProductRequestValid {
-	String message() default "Request is not valid";
+	String message() default "Invalid product request";
 
 	Class<?>[] groups() default {};
 
